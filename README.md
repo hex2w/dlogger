@@ -18,7 +18,7 @@ logger.error("An exception occured", new Error("Error"));
 
 ## Custom format
 This is using `printf` from the deno standard library and you can use your own custom format.
-The default format is "%s".
+The default format is `"%s"`.
 
 ```ts
 // You can use it inside the message
