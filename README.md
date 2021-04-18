@@ -6,38 +6,45 @@ A simple logger for Deno
 ## Basic usage
 
 ```ts
-import { Logger } from "https://deno.land/x/dlogger/mod.ts
+import { Logger } from "https://deno.land/x/dlogger/mod.ts"
 
-const logger = new Logger()
+const logger = new Logger({ format: "Logger: %s\n" })
 
-logger.log("This is a simple log")
-logger.info("You can log an object", { name: "John Doe", city: "New York" });
-logger.warn("This is a", "warning")
-logger.error("An exception occured", new Error("Error"));
+logger.log("test")
+logger.info("test")
+logger.warn("test")
+logger.error("test")
+
+function myFunc (x: number) { return x * 2 }
+
+logger.log("Strings", "One", "Two", "Three")
+logger.log("Functions", (x: number) => x * 2, myFunc)
+logger.info("Object", { x: 24, y: 92 })
+logger.warn("Array", [ 242, "abc", { a: 1, b: 3 } ])
+logger.error("Error", new Error("Something has gone wrong"))
 ```
+
+This will output
+
+![Basic Usage Output](https://i.imgur.com/BA1KGdF.png)
 
 ## Custom format
 This is using `printf` from the deno standard library and you can use your own custom format.
-The default format is `"%s"`.
+The default format is `"%s\n"`.
 
 ```ts
-// You can use it inside the message
-console.log("I'm using a %s format!", "custom")
+import { Logger } from "./logger.ts"
 
-// Output: I'm using a custom format!
-```
-
-```ts
 // You can also change the default format when creating the logger
-const logger = new Logger({ format: "Logger says: %s, %d" })
+const logger = new Logger({ format: "\nLogger:\n%s\n\n" })
 
 logger.log("Hello", 123, 321)
 
-// Output: LOG Logger says: Hello 123, 321!
-
 // Or in runtime
-logger.format = "I'm using a custom %s!"
+logger.format = "I'm using a custom %s!\n"
 logger.log("format")
-
-// Output: I'm using a custom format!
 ```
+
+This will result in
+
+![Custom Format Output](https://i.imgur.com/vmpEEuW.png)
