@@ -1,7 +1,7 @@
 # dlogger
 A simple logger for Deno
 
-![Screenshot](https://i.imgur.com/Br7dD5D.png)
+![Screenshot](https://i.imgur.com/CaYnxHX.png)
 
 ## Basic usage
 
