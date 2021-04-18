@@ -28,6 +28,8 @@ This will output
 
 ![Basic Usage Output](https://i.imgur.com/BA1KGdF.png)
 
+Note that only `logger.error()` will output the error message and it only takes one argument of the type `Error`.
+
 ## Custom format
 This is using `printf` from the deno standard library and you can use your own custom format.
 The default format is `"%s\n"`.
