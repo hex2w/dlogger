@@ -1,40 +1,62 @@
-import { colors, sprintf } from "../deps.ts"
+import { colors, printf } from "./deps.ts"
 
 interface LoggerOptions {
     format?: string
+    time?: boolean
 }
 
-const initialOptions = { format: "%s\n" };
+const defaultOptions = { format: "%s\n" }
 
 export class Logger {
     private _format: string
 
-    constructor(options: LoggerOptions = initialOptions as LoggerOptions) {
-        const { format } = { ...initialOptions, ...options }
-
+    constructor(options: LoggerOptions = defaultOptions as LoggerOptions) {
+        const { format } = { ...defaultOptions, ...options }
         this._format = format
     }
 
+
     get format(): string {
-        return this._format;
-    }
-    set format(_f: string) {
-        this._format = _f;
+        return this._format
     }
 
-    log(...messages: unknown[]) {
-        console.log(colors.bgBlack("LOG") + " " + colors.gray(sprintf(this.format, ...messages)));
+    set format(_f: string) {
+        this._format = _f
     }
-    info(...messages: unknown[]) {
-        console.info(colors.bgCyan(colors.black("WARN")) + " " + colors.cyan(sprintf(this.format, ...messages)));
+
+    log(message: string | number, ...args: unknown[]) {
+        message = colors.gray(`${message}`)
+
+        if (args.length > 0) message += " | " + JSON.stringify(args)
+
+        printf(colors.bgBlack("LOG") + " ")
+        printf(this.format, message)
     }
-    warn(...messages: unknown[]) {
-        console.warn(colors.bgYellow(colors.black("WARN")) + " " + colors.yellow(sprintf(this.format, ...messages)));
+
+    info(message: string | number, ...args: unknown[]) {
+        message = colors.cyan(`${message}`)
+
+        if (args.length > 0) message += " | " + JSON.stringify(args)
+
+        printf(colors.bgCyan(colors.black("INFO")) + " ")
+        printf(this.format, message)
     }
-    error(...messages: unknown[]) {
-        console.error(colors.bgRed("ERROR") + " " + colors.red(sprintf(this.format, ...messages)));
+
+    warn(message: string | number, ...args: unknown[]) {
+        message = colors.yellow(`${message}`)
+
+        if (args.length > 0) message += " | " + JSON.stringify(args)
+
+        printf(colors.bgYellow(colors.black("WARN")) + " ")
+        printf(this.format, message)
     }
-    debug(...messages: unknown[]) {
-        console.debug(colors.bgMagenta("DEBUG") + " " + colors.magenta(sprintf(this.format, ...messages)));
+
+    error(message: string | number, error?: Error) {
+        message = colors.red(`${message}`)
+
+        if (error) message += " | " + colors.red(error.message)
+
+        printf(colors.bgRed("ERROR") + " ")
+        printf(this.format, message)
     }
 }
